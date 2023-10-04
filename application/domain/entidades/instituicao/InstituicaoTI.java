@@ -1,9 +1,10 @@
 package application.domain.entidades.instituicao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InstituicaoTI {
-    private List<Turma> turmas;
+    private List<Turma> turmas = new ArrayList<>();
 
     public void adicionarTurma(Turma turma) {
         turmas.add(turma);

@@ -8,8 +8,8 @@ import application.domain.entidades.usuario.Professor;
 import java.util.Scanner;
 
 public class Menu {
-    private InstituicaoTI instituicaoTI;
-    private Scanner scanner;
+    private InstituicaoTI instituicaoTI = new InstituicaoTI();
+    private Scanner scanner = new Scanner(System.in);
 
     public void exibirMenu() {
         while (true) {
