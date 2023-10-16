@@ -5,6 +5,7 @@ import application.domain.entidades.instituicao.Turma;
 import application.domain.entidades.usuario.Aluno;
 import application.domain.entidades.usuario.Professor;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Menu {
@@ -62,11 +63,7 @@ public class Menu {
         System.out.print("Informe a disciplina: ");
         String disciplina = scanner.nextLine();
 
-        System.out.print("Informe o nome do professor: ");
-        String nomeProfessor = scanner.nextLine();
 
-
-        Professor professor = new Professor(1, nomeProfessor, "email@exemplo.com", "Universidade XYZ");
 
 
         Turma turma = new Turma(codigoTurma, disciplina, professor);
@@ -75,15 +72,105 @@ public class Menu {
         adicionarAlunosTurma(turma);
 
 
-        instituicaoTI.adicionarTurma(turma);
+        instituicaoTI.adicionarTurma(turma, 0);
 
         System.out.println("Dados da turma e alunos informados com sucesso!");
+    }
+
+    private Turma informeTurma() {
+        while(true) {
+            print("------- Informe de dados da turma -------");
+            print("Codigo: ");
+            int codigo = scanner.nextInt();
+            scanner.nextLine();
+            print("Disciplina: ");
+            String nome = scanner.nextLine();
+            print("Nome do professor: ");
+            String professor = scanner.nextLine();
+            if(!instituicaoTI.isNomeExistenteProfessor(professor)) {
+                print("Nome de professor invalido. Refaça o informe da turma.");
+                break;
+            }
+            Aluno[] alunos = informeAlunos();
+            return new Turma(codigo, nome, professor);
+
+        }
+    }
+    private Aluno[] informeAlunos() {
+        Aluno[] alunos = new Aluno[30];
+        int i = 0;
+        while (true) {
+            print("--- Informe de dados do aluno ---");
+            print("Codigo: ");
+            int codigo = scanner.nextInt();
+            scanner.nextLine();
+            print("Nome: ");
+            String nome = scanner.nextLine();
+            print("Email: ");
+            String email = scanner.nextLine();
+            double n1;
+            double n2;
+            double n3;
+            while(true) {
+                print("Nota 1: ");
+                n1 = scanner.nextFloat();
+                scanner.nextLine();
+                if(n1 >= 0 && n1 <= 10) {
+                    n2 = scanner.nextFloat();
+                    scanner.nextLine();
+                    if(n2 >= 0 && n2 <= 10) {
+                        n3 = scanner.nextFloat();
+                        scanner.nextLine();
+                        if(n3 >= 0 && n3 <= 10) {
+                            break;
+                        }
+                    }
+                }
+                print("A nota deve ser entre 0 a 10");
+            }
+            double notas[] = new double[3];
+            notas[0] = n1;
+            notas[1] = n2;
+            notas[2] = n3;
+            alunos[i] = new Aluno(codigo, nome, email, notas);
+            i++;
+
+            print("Deseja continuar informando? S/N");
+            print(null);
+            String resposta = scanner.nextLine();
+            if(resposta.equalsIgnoreCase("N") || i == 30) {
+                break;
+            }
+        }
+        return alunos;
+    }
+    private Professor informeProfessor() {
+        while(true) {
+            print("------- Informe de dados do professor -------");
+            print("Codigo: ");
+            int codigo = scanner.nextInt();
+            scanner.nextLine();
+            print("Nome: ");
+            String nome = scanner.nextLine();
+            print("Email: ");
+            String email = scanner.nextLine();
+            print("Universidade de formação: ");
+            String universidadeFormacao = scanner.nextLine();
+            if(instituicaoTI.isCodigoExistenteProfessor(codigo))
+                return new Professor(codigo, nome, email, universidadeFormacao);
+            else {
+                print("O código informado já está em uso.");
+            }
+        }
+    }
+    private void print(Object object) {
+        System.out.println(object);
     }
 
     private void adicionarAlunosTurma(Turma turma) {
         char continuar;
         do {
-            if (turma.obterQuantidadeAlunos() < 30) {
+            if (turma.getAlunosSize() < 30) {
                 System.out.println("Informações do aluno:");
 
                 System.out.print("Código do aluno: ");
@@ -96,8 +183,17 @@ public class Menu {
                 System.out.print("E-mail do aluno: ");
                 String emailAluno = scanner.nextLine();
 
+                System.out.println("Código do curso do aluno: ");
+                System.out.println("1-) Ciência da Computação");
+                System.out.println("2-) Engenharia de Software");
+                System.out.println("3-) Engenharia de Computação");
+                System.out.println("4-) Análise e Desenvolvimento de Software");
+                System.out.println();
+                int codigoCurso = scanner.nextInt();
+                scanner.nextLine();
 
-                Aluno aluno = new Aluno(codigoAluno, nomeAluno, emailAluno);
+
+                Aluno aluno = new Aluno(codigoAluno, nomeAluno, emailAluno, instituicaoTI.getCursoByIndex(codigoCurso));
 
 
                 for (int i = 0; i < 3; i++) {
@@ -135,7 +231,7 @@ public class Menu {
         }
 
         if (turmaConsultada != null) {
-            turmaConsultada.mostrarDados();
+            turmaConsultada.printDadosDetalhados();
         } else {
             System.out.println("Turma não encontrada.");
         }

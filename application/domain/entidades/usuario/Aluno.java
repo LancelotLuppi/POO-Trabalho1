@@ -1,14 +1,25 @@
 package application.domain.entidades.usuario;
 
+import application.domain.entidades.instituicao.Curso;
+
 public class Aluno extends Usuario {
 
     private double[] notas;
+    private Curso curso;
 
-    public Aluno(int codigo, String nome, String email) {
+    public Aluno(int codigo, String nome, String email, Curso curso) {
         super.codigo = codigo;
         super.nome = nome;
         super.email = email;
+        this.curso = curso;
         this.notas = new double[3];
+    }
+
+    public Aluno(int codigo, String nome, String email, double[] notas) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.email = email;
+        this.notas = notas;
     }
 
     public double[] getNotas() {

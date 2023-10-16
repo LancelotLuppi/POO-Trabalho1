@@ -4,19 +4,19 @@ import application.domain.entidades.Entity;
 import application.domain.entidades.usuario.Aluno;
 import application.domain.entidades.usuario.Professor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Turma extends Entity {
 
     private Professor professor;
-    private List<Aluno> alunos;
+    private Aluno[] alunos;
 
     public Turma(int codigo, String disciplina, Professor professor) {
         super.codigo = codigo;
         super.nome = disciplina;
         this.professor = professor;
-        this.alunos = new ArrayList<>();
+        this.alunos = new Aluno[30];
     }
 
     public Professor getProfessor() {
@@ -27,24 +27,25 @@ public class Turma extends Entity {
         this.professor = professor;
     }
 
-    public List<Aluno> getAlunos() {
+    public Aluno[] getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
+    public void setAlunos(Aluno[] alunos) {
         this.alunos = alunos;
     }
 
     public void adicionarAluno(Aluno aluno) {
-        if (alunos.size() < 30) {
-            alunos.add(aluno);
+        long index = getAlunosSize();
+        if (index < 30) {
+            alunos[(int) index] = aluno;
         } else {
             System.out.println("Limite de alunos atingido para esta turma.");
         }
     }
 
-    public int obterQuantidadeAlunos() {
-        return alunos.size();
+    public long getAlunosSize() {
+        return Arrays.stream(alunos).filter(Objects::nonNull).count();
     }
 
     public int obterQuantidadeAprovados() {
@@ -57,12 +58,8 @@ public class Turma extends Entity {
         return count;
     }
 
-    public void mostrarDados() {
-        System.out.println("----- Dados da Turma -----");
-        System.out.println("Código: " + super.getCodigo());
-        System.out.println("Disciplina: " + super.getNome());
-        System.out.println("Professor: " + getProfessor().getNome());
-        System.out.println("Quantidade de Alunos: " + obterQuantidadeAlunos());
+    public void printDadosDetalhados() {
+        printDadosBasicos();
         System.out.println("----- Alunos -----");
         for (Aluno aluno : alunos) {
             System.out.println("Código do Aluno: " + aluno.getCodigo());
@@ -71,5 +68,13 @@ public class Turma extends Entity {
             System.out.println("Situação: " + (aluno.estaAprovado() ? "Aprovado" : "Reprovado"));
             System.out.println("-----");
         }
+    }
+
+    public void printDadosBasicos() {
+        System.out.println("----- Dados da Turma -----");
+        System.out.println("Código: " + super.getCodigo());
+        System.out.println("Disciplina: " + super.getNome());
+        System.out.println("Professor: " + getProfessor().getNome());
+        System.out.println("Quantidade de Alunos: " + getAlunosSize());
     }
 }
