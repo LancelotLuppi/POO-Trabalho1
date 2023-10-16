@@ -48,6 +48,19 @@ public class Aluno extends Usuario {
         System.out.println("Curso: " + this.getCurso().getNome());
     }
 
+    public void printDadosDetalhados() {
+        System.out.println("Código do Aluno: " + this.getCodigo());
+        System.out.println("Nome: " + this.getNome());
+        System.out.println(
+                "N1: " + String.format("%.2f", this.getNotaByIndex(0))
+                        + " | N2: " + String.format("%.2f", this.getNotaByIndex(1))
+                        + " | N3: " + String.format("%.2f", this.getNotaByIndex(2))
+        );
+        System.out.println("Media: " + String.format("%.2f", this.calcularMedia()));
+        System.out.println("Situação: " + (this.estaAprovado() ? "Aprovado" : "Reprovado"));
+        System.out.println("---------------");
+    }
+
     public Curso getCurso() {
         return this.curso;
     }

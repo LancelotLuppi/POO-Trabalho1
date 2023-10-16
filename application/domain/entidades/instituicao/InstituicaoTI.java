@@ -1,6 +1,5 @@
 package application.domain.entidades.instituicao;
 
-import application.domain.entidades.Entity;
 import application.domain.entidades.usuario.Aluno;
 import application.domain.entidades.usuario.Professor;
 
@@ -9,7 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class InstituicaoTI {
-    private Turma[] turmas = new Turma[30];
+    private final Turma[] turmas = new Turma[30];
 
     private final Curso[] cursos = new Curso[4];
     private final Professor[] professores = new Professor[30];
@@ -42,8 +41,7 @@ public class InstituicaoTI {
     }
     public void consultaNomesProfessores() {
         System.out.println("Lista de nomes dos professores:");
-        System.out.println();
-        Arrays.stream(professores).filter(Objects::nonNull).forEach(professor -> System.out.println(professor.getNome()));
+        Arrays.stream(professores).filter(Objects::nonNull).forEach(professor -> System.out.println("- " + professor.getNome()));
         System.out.println();
     }
     public Optional<Aluno> consultaTodosAlunosPorCodigo(int codigo) {
