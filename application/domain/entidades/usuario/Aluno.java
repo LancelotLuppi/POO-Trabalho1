@@ -39,4 +39,16 @@ public class Aluno extends Usuario {
             return this.notas[index];
         return 0;
     }
+
+    public void printDadosBasicos() {
+        System.out.println("----- Dados do aluno -----");
+        System.out.println("Codigo: " + super.getCodigo());
+        System.out.println("Nome: " + super.getNome());
+        System.out.println("Email: " + super.getEmail());
+        System.out.println("Curso: " + this.getCurso().getNome());
+    }
+
+    public Curso getCurso() {
+        return this.curso;
+    }
 }

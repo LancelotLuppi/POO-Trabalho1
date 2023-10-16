@@ -1,6 +1,7 @@
 package application.domain.entidades.instituicao;
 
 import application.domain.entidades.Entity;
+import application.domain.entidades.usuario.Aluno;
 import application.domain.entidades.usuario.Professor;
 
 import java.util.Arrays;
@@ -45,11 +46,16 @@ public class InstituicaoTI {
         Arrays.stream(professores).filter(Objects::nonNull).forEach(professor -> System.out.println(professor.getNome()));
         System.out.println();
     }
-    public boolean isCodigoExistenteProfessor(int codigo) {
-        return Arrays.stream(professores).anyMatch(professor -> professor.getCodigo().equals(codigo));
-    }
-    public boolean isNomeExistenteProfessor(String nome) {
-        return Arrays.stream(professores).anyMatch(professor -> professor.getNome().equalsIgnoreCase(nome));
+    public Optional<Aluno> consultaTodosAlunosPorCodigo(int codigo) {
+        Optional<Aluno> aluno = Optional.empty();
+        for(Turma turma : turmas) {
+            if(Objects.nonNull(turma)) {
+                aluno = turma.consultaAlunoPorCodigo(codigo);
+                if(aluno.isPresent())
+                    break;
+            }
+        }
+        return aluno;
     }
 
     public Optional<Professor> getProfessorByName(String nome) {

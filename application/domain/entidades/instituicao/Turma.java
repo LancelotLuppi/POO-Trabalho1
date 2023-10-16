@@ -6,6 +6,7 @@ import application.domain.entidades.usuario.Professor;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Turma extends Entity {
 
@@ -48,6 +49,14 @@ public class Turma extends Entity {
 
     public int obterQuantidadeAprovados() {
         return (int) Arrays.stream(alunos).filter(Objects::nonNull).filter(Aluno::estaAprovado).count();
+    }
+
+    public Optional<Aluno> consultaAlunoPorCodigo(int codigo) {
+        return Arrays.stream(alunos).filter(Objects::nonNull).filter(aluno -> aluno.getCodigo().equals(codigo)).findFirst();
+    }
+
+    public void listaAluno() {
+        Arrays.stream(alunos).filter(Objects::nonNull).forEach(Aluno::printDadosBasicos);
     }
 
     public double getPercentualAprovados() {

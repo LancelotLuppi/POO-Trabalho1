@@ -7,7 +7,6 @@ import application.domain.entidades.usuario.Aluno;
 import application.domain.entidades.usuario.Professor;
 
 import java.util.InputMismatchException;
-import java.util.MissingFormatArgumentException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -35,14 +34,14 @@ public class Menu {
                 case 3 -> consultarDadosTurma();
                 case 4 -> estatisticasGerais();
                 case 5 -> {
-                    System.out.print("Deseja realmente sair? S-Sim/N-Não: ");
+                    print("Deseja realmente sair? S-Sim/N-Não: ");
                     String confirmacao = scanner.nextLine();
                     if (confirmacao.equalsIgnoreCase("S")) {
                         scanner.close();
                         System.exit(0);
                     }
                 }
-                default -> System.out.println("Opção inválida. Tente novamente.");
+                default -> print("Opção inválida. Tente novamente.");
             }
         }
     }
@@ -56,11 +55,12 @@ public class Menu {
         instituicaoTI.listarTodasTurmas();
         continuar();
     }
+
     private void informeTurma() {
         int codigo;
         String disciplina;
         Optional<Professor> optProfessor;
-        while(true) {
+        while (true) {
             print("------- Informe de dados da turma -------");
             print("Codigo: ");
             codigo = lerInt();
@@ -69,18 +69,18 @@ public class Menu {
             print("Nome do professor: ");
             String professor = scanner.nextLine();
             optProfessor = instituicaoTI.getProfessorByName(professor);
-            if(optProfessor.isEmpty()) {
+            if (optProfessor.isEmpty()) {
                 print();
                 print("Nome de professor incorreto ou inexistente no banco de dados.");
                 print("Deseja adicionar? S/N");
                 String opcao = scanner.nextLine();
-                if(opcao.equalsIgnoreCase("S")) {
+                if (opcao.equalsIgnoreCase("S")) {
                     adicionaProfessor();
                 } else {
                     print("Refaça o informe com o nome correto do professor.");
                     print("Deseja consultar a base de nomes? S/N");
                     opcao = scanner.nextLine();
-                    if(opcao.equalsIgnoreCase("S"))
+                    if (opcao.equalsIgnoreCase("S"))
                         instituicaoTI.consultaNomesProfessores();
                     else
                         print();
@@ -107,6 +107,7 @@ public class Menu {
         String universidade = scanner.nextLine();
         instituicaoTI.adicionaProfessor(new Professor(codigo, nome, email, universidade));
     }
+
     private Aluno[] informeAlunos() {
         Aluno[] alunos = new Aluno[30];
         int i = 0;
@@ -114,60 +115,79 @@ public class Menu {
             print("--- Informe de dados do aluno ---");
             print("Codigo: ");
             int codigo = lerInt();
-            print("Nome: ");
-            String nome = scanner.nextLine();
-            print("Email: ");
-            String email = scanner.nextLine();
-            Curso curso = selecionarCurso();
-            double n1;
-            double n2;
-            double n3;
-            while(true) {
-                try{
-                    print("Nota 1 (formato 0,0): ");
-                    n1 = lerFloat();
-                    if(n1 >= 0 && n1 <= 10) {
-                        print("Nota 2 (formato 0,0): ");
-                        n2 = lerFloat();
-                        if(n2 >= 0 && n2 <= 10) {
-                            print("Nota 3 (formato 0,0): ");
-                            n3 = lerFloat();
-                            if(n3 >= 0 && n3 <= 10) {
-                                break;
-                            }
-                        }
+            Optional<Aluno> optAluno = instituicaoTI.consultaTodosAlunosPorCodigo(codigo);
+            if (optAluno.isPresent()) {
+                print("Código do aluno informado já existente, pertence à: " + optAluno.get().getNome() + " | " + optAluno.get().getEmail());
+                print("Deseja adicionar o aluno existente na turma? S/N");
+                String opcao = scanner.nextLine();
+                if (opcao.equalsIgnoreCase("S")) {
+                    alunos[i] = optAluno.get();
+                    print("Deseja continuar informando? S/N");
+                    i++;
+                    opcao = scanner.nextLine();
+                    if (opcao.equalsIgnoreCase("N") || i == 30) {
+                        break;
                     }
-                    print("A nota deve ser entre 0 a 10");
-                } catch (InputMismatchException ignored) {
-                    print("Formato invalido.");
+                } else
+                    print("Informe os dados do aluno novamente com um código ainda não utilizado.");
+            } else {
+                print("Nome: ");
+                String nome = scanner.nextLine();
+                print("Email: ");
+                String email = scanner.nextLine();
+                Curso curso = selecionarCurso();
+                double[] notas = informeNotas();
+                alunos[i] = new Aluno(codigo, nome, email, curso, notas);
+                i++;
+                print("Deseja continuar informando? S/N");
+                print();
+                String resposta = scanner.nextLine();
+                if (resposta.equalsIgnoreCase("N") || i == 30) {
+                    break;
                 }
             }
-            double[] notas = new double[3];
-            notas[0] = n1;
-            notas[1] = n2;
-            notas[2] = n3;
-            alunos[i] = new Aluno(codigo, nome, email, curso, notas);
-            i++;
 
-            print("Deseja continuar informando? S/N");
-            print();
-            String resposta = scanner.nextLine();
-            if(resposta.equalsIgnoreCase("N") || i == 30) {
-                break;
-            }
         }
         return alunos;
     }
+
+    private double[] informeNotas() {
+        double n1;
+        double n2;
+        double n3;
+        while (true) {
+            print("Nota 1 (formato 0,0): ");
+            n1 = lerFloat();
+            if (n1 >= 0 && n1 <= 10) {
+                print("Nota 2 (formato 0,0): ");
+                n2 = lerFloat();
+                if (n2 >= 0 && n2 <= 10) {
+                    print("Nota 3 (formato 0,0): ");
+                    n3 = lerFloat();
+                    if (n3 >= 0 && n3 <= 10) {
+                        break;
+                    }
+                }
+            }
+            print("A nota deve ser entre 0 a 10");
+        }
+        double[] notas = new double[3];
+        notas[0] = n1;
+        notas[1] = n2;
+        notas[2] = n3;
+        return notas;
+    }
+
     private Curso selecionarCurso() {
-        do{
+        do {
             print("Código do curso do aluno: ");
             print("1-) Ciência da Computação");
             print("2-) Engenharia de Software");
             print("3-) Engenharia de Computação");
             print("4-) Análise e Desenvolvimento de Software");
             int codigoCurso = lerInt();
-            Curso curso = instituicaoTI.getCursoByIndex(codigoCurso-1);
-            if(curso != null)
+            Curso curso = instituicaoTI.getCursoByIndex(codigoCurso - 1);
+            if (curso != null)
                 return curso;
             else
                 print("Curso invalido, selecione novamente.");
@@ -175,6 +195,7 @@ public class Menu {
 
 
     }
+
     private void consultarDadosTurma() {
         System.out.print("Informe o código da turma que deseja consultar: ");
         int codigoTurma = lerInt();
@@ -190,9 +211,11 @@ public class Menu {
                 return input;
             } catch (InputMismatchException ignored) {
                 print("Informe um número inteiro.");
+                scanner.nextLine();
             }
         }
     }
+
     private float lerFloat() {
         while (true) {
             try {
@@ -201,17 +224,21 @@ public class Menu {
                 return input;
             } catch (InputMismatchException ignored) {
                 print("Informe um número float: 0,0.");
+                scanner.nextLine();
             }
         }
     }
 
     private void continuar() {
+        print();
         print("Pressione qualquer tecla para continuar.");
         scanner.nextLine();
     }
+
     private void print(Object object) {
         System.out.println(object);
     }
+
     private void print() {
         System.out.println();
     }
