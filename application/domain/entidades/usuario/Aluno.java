@@ -15,21 +15,12 @@ public class Aluno extends Usuario {
         this.notas = new double[3];
     }
 
-    public Aluno(int codigo, String nome, String email, double[] notas) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.email = email;
+    public Aluno(int codigo, String nome, String email, Curso curso, double[] notas) {
+        super.codigo = codigo;
+        super.nome = nome;
+        super.email = email;
+        this.curso = curso;
         this.notas = notas;
-    }
-
-    public double[] getNotas() {
-        return notas;
-    }
-
-    public void adicionarNota(int indice, double nota) {
-        if (indice >= 0 && indice < notas.length) {
-            notas[indice] = nota;
-        }
     }
 
     public double calcularMedia() {
@@ -41,6 +32,11 @@ public class Aluno extends Usuario {
     }
 
     public boolean estaAprovado() {
-        return calcularMedia() >= 6.0;
+        return calcularMedia() >= 7.0;
+    }
+    public double getNotaByIndex(int index) {
+        if(index >= 0 && index <= 3)
+            return this.notas[index];
+        return 0;
     }
 }

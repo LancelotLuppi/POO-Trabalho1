@@ -19,6 +19,13 @@ public class Turma extends Entity {
         this.alunos = new Aluno[30];
     }
 
+    public Turma(int codigo, String disciplina, Professor professor, Aluno[] alunos) {
+        super.codigo = codigo;
+        super.nome = disciplina;
+        this.professor = professor;
+        this.alunos = alunos;
+    }
+
     public Professor getProfessor() {
         return professor;
     }
@@ -35,39 +42,35 @@ public class Turma extends Entity {
         this.alunos = alunos;
     }
 
-    public void adicionarAluno(Aluno aluno) {
-        long index = getAlunosSize();
-        if (index < 30) {
-            alunos[(int) index] = aluno;
-        } else {
-            System.out.println("Limite de alunos atingido para esta turma.");
-        }
-    }
-
     public long getAlunosSize() {
         return Arrays.stream(alunos).filter(Objects::nonNull).count();
     }
 
     public int obterQuantidadeAprovados() {
-        int count = 0;
-        for (Aluno aluno : alunos) {
-            if (aluno.estaAprovado()) {
-                count++;
-            }
-        }
-        return count;
+        return (int) Arrays.stream(alunos).filter(Objects::nonNull).filter(Aluno::estaAprovado).count();
+    }
+
+    public double getPercentualAprovados() {
+        int alunos = (int) getAlunosSize();
+        int aprovados = obterQuantidadeAprovados();
+        return alunos > 0 ? (double) aprovados / alunos * 100 : 0;
     }
 
     public void printDadosDetalhados() {
         printDadosBasicos();
         System.out.println("----- Alunos -----");
-        for (Aluno aluno : alunos) {
+        Arrays.stream(alunos).filter(Objects::nonNull).forEach(aluno -> {
             System.out.println("Código do Aluno: " + aluno.getCodigo());
             System.out.println("Nome: " + aluno.getNome());
-            System.out.println("Notas: " + aluno.calcularMedia());
+            System.out.println(
+                    "N1: " + String.format("%.2f", aluno.getNotaByIndex(0))
+                    + " | N2: " + String.format("%.2f", aluno.getNotaByIndex(1))
+                    + " | N3: " + String.format("%.2f", aluno.getNotaByIndex(2))
+            );
+            System.out.println("Media: " + String.format("%.2f", aluno.calcularMedia()));
             System.out.println("Situação: " + (aluno.estaAprovado() ? "Aprovado" : "Reprovado"));
-            System.out.println("-----");
-        }
+            System.out.println("---------------");
+        });
     }
 
     public void printDadosBasicos() {
@@ -76,5 +79,12 @@ public class Turma extends Entity {
         System.out.println("Disciplina: " + super.getNome());
         System.out.println("Professor: " + getProfessor().getNome());
         System.out.println("Quantidade de Alunos: " + getAlunosSize());
+    }
+
+    public void printDadosEstatistica() {
+        printDadosBasicos();
+        System.out.println("Quantidade aprovados: " + obterQuantidadeAprovados());
+        System.out.println("Percentual aprovacao: " + String.format("%.2f", getPercentualAprovados()) + "%");
+        System.out.println();
     }
 }
