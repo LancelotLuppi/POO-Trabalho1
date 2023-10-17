@@ -32,7 +32,7 @@ public class Aluno extends Usuario {
     }
 
     public boolean estaAprovado() {
-        return calcularMedia() >= 7.0;
+        return calcularMedia() >= 6.0;
     }
     public double getNotaByIndex(int index) {
         if(index >= 0 && index <= 3)
