@@ -49,7 +49,7 @@ public class Aluno extends Usuario {
     }
 
     public void printDadosDetalhados() {
-        System.out.println("Código do Aluno: " + this.getCodigo());
+        System.out.println("Codigo do Aluno: " + this.getCodigo());
         System.out.println("Nome: " + this.getNome());
         System.out.println(
                 "N1: " + String.format("%.2f", this.getNotaByIndex(0))
@@ -57,7 +57,7 @@ public class Aluno extends Usuario {
                         + " | N3: " + String.format("%.2f", this.getNotaByIndex(2))
         );
         System.out.println("Media: " + String.format("%.2f", this.calcularMedia()));
-        System.out.println("Situação: " + (this.estaAprovado() ? "Aprovado" : "Reprovado"));
+        System.out.println("Situacao: " + (this.estaAprovado() ? "Aprovado" : "Reprovado"));
         System.out.println("---------------");
     }
 

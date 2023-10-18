@@ -14,10 +14,10 @@ public class InstituicaoTI {
     private final Professor[] professores = new Professor[30];
 
     public InstituicaoTI() {
-        cursos[0] = new Curso(1, "Ciência da Computação");
+        cursos[0] = new Curso(1, "Ciencia da Computacao");
         cursos[1] = new Curso(2, "Engenharia de Software");
-        cursos[2] = new Curso(3, "Engenharia de Computação");
-        cursos[3] = new Curso(4, "Análise e Desenvolvimento de Sistemas");
+        cursos[2] = new Curso(3, "Engenharia de Computacao");
+        cursos[3] = new Curso(4, "Analise e Desenvolvimento de Sistemas");
     }
 
     public Curso[] getCursos() {
@@ -36,7 +36,7 @@ public class InstituicaoTI {
         if(index < 30) {
             professores[index] = professor;
         } else {
-            System.out.println("Numero máximo de professores atingido (30).");
+            System.out.println("Numero maximo de professores atingido (30).");
         }
     }
     public void consultaNomesProfessores() {
@@ -102,7 +102,7 @@ public class InstituicaoTI {
         if(optTurma.isPresent()) {
             optTurma.get().printDadosDetalhados();
         } else
-            System.out.println("Código de turma inválido.");
+            System.out.println("Codigo de turma inválido.");
     }
 
     public void mostrarEstatisticasGerais() {
@@ -119,13 +119,13 @@ public class InstituicaoTI {
 
             double percentualAprovacaoTotal = totalAlunos > 0 ? (double) totalAprovados / totalAlunos * 100 : 0;
 
-            System.out.println("----- Estatísticas Gerais -----");
+            System.out.println("----- Estatisticas Gerais -----");
             System.out.println("Total de Turmas: " + getNumTurmas());
             System.out.println("Total de Alunos Matriculados: " + totalAlunos);
             System.out.println("Total de Alunos Aprovados: " + totalAprovados);
             System.out.println("Percentual de Aprovação Geral: " + String.format("%.2f", percentualAprovacaoTotal) + "%");
             System.out.println();
-            System.out.println("----- Estatísticas por turma -----");
+            System.out.println("----- Estatisticas por turma -----");
             Arrays.stream(turmas).filter(Objects::nonNull).forEach(Turma::printDadosEstatistica);
         } else {
             System.out.println("Sem turmas para consulta.");

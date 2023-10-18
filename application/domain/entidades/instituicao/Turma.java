@@ -56,7 +56,7 @@ public class Turma extends Entity {
 
     public void printDadosBasicos() {
         System.out.println("----- Dados da Turma -----");
-        System.out.println("Código: " + super.getCodigo());
+        System.out.println("Codigo: " + super.getCodigo());
         System.out.println("Disciplina: " + super.getNome());
         System.out.println("Professor: " + getProfessor().getNome());
         System.out.println("Quantidade de Alunos: " + getAlunosSize());

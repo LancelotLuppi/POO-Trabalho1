@@ -17,9 +17,9 @@ public class Menu {
     public void exibirMenu() {
         while (true) {
             print("------------------------------------------------------------");
-            print("Instituição TI");
+            print("Instituicao TI");
             print("------------------------------------------------------------");
-            print("Escolha uma das opções a seguir:");
+            print("Escolha uma das opcoes a seguir:");
             print("1) Listar todas as turmas");
             print("2) Informar dados de uma turma");
             print("3) Consultar os dados de uma turma");
@@ -34,14 +34,14 @@ public class Menu {
                 case 3 -> consultarDadosTurma();
                 case 4 -> estatisticasGerais();
                 case 5 -> {
-                    print("Deseja realmente sair? S-Sim/N-Não: ");
+                    print("Deseja realmente sair? S-Sim/N-Nao: ");
                     String confirmacao = scanner.nextLine();
                     if (confirmacao.equalsIgnoreCase("S")) {
                         scanner.close();
                         System.exit(0);
                     }
                 }
-                default -> print("Opção inválida. Tente novamente.");
+                default -> print("Opção invalida. Tente novamente.");
             }
         }
     }
@@ -77,7 +77,7 @@ public class Menu {
                 if (opcao.equalsIgnoreCase("S")) {
                     adicionaProfessor();
                 } else {
-                    print("Refaça o informe com o nome correto do professor.");
+                    print("Refaca o informe com o nome correto do professor.");
                     print("Deseja consultar a base de nomes? S/N");
                     opcao = scanner.nextLine();
                     if (opcao.equalsIgnoreCase("S"))
@@ -117,7 +117,7 @@ public class Menu {
             int codigo = lerInt();
             Optional<Aluno> optAluno = instituicaoTI.consultaTodosAlunosPorCodigo(codigo);
             if (optAluno.isPresent()) {
-                print("Código do aluno informado já existente, pertence à: " + optAluno.get().getNome() + " | " + optAluno.get().getEmail());
+                print("Código do aluno informado já existente, pertence a: " + optAluno.get().getNome() + " | " + optAluno.get().getEmail());
                 print("Deseja adicionar o aluno existente na turma? S/N");
                 String opcao = scanner.nextLine();
                 if (opcao.equalsIgnoreCase("S")) {
@@ -129,7 +129,7 @@ public class Menu {
                         break;
                     }
                 } else
-                    print("Informe os dados do aluno novamente com um código ainda não utilizado.");
+                    print("Informe os dados do aluno novamente com um codigo ainda não utilizado.");
             } else {
                 print("Nome: ");
                 String nome = scanner.nextLine();
@@ -210,7 +210,7 @@ public class Menu {
                 scanner.nextLine();
                 return input;
             } catch (InputMismatchException ignored) {
-                print("Informe um número inteiro.");
+                print("Informe um numero inteiro.");
                 scanner.nextLine();
             }
         }
@@ -223,7 +223,7 @@ public class Menu {
                 scanner.nextLine();
                 return input;
             } catch (InputMismatchException ignored) {
-                print("Informe um número float: 0,0.");
+                print("Informe um numero float: 0,0.");
                 scanner.nextLine();
             }
         }
