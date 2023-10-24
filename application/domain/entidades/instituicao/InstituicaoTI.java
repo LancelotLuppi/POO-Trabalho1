@@ -102,7 +102,7 @@ public class InstituicaoTI {
         if(optTurma.isPresent()) {
             optTurma.get().printDadosDetalhados();
         } else
-            System.out.println("Codigo de turma inválido.");
+            System.out.println("Codigo de turma invalido.");
     }
 
     public void mostrarEstatisticasGerais() {

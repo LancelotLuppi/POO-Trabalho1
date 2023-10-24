@@ -23,7 +23,7 @@ public class Menu {
             print("1) Listar todas as turmas");
             print("2) Informar dados de uma turma");
             print("3) Consultar os dados de uma turma");
-            print("4) Consultar estatísticas gerais");
+            print("4) Consultar estatisticas gerais");
             print("5) Sair do sistema");
             print("------------------------------------------------------------");
 
@@ -103,7 +103,7 @@ public class Menu {
         String nome = scanner.nextLine();
         print("Email: ");
         String email = scanner.nextLine();
-        print("Universidade de formação: ");
+        print("Universidade de formacao: ");
         String universidade = scanner.nextLine();
         instituicaoTI.adicionaProfessor(new Professor(codigo, nome, email, universidade));
     }
@@ -181,10 +181,10 @@ public class Menu {
     private Curso selecionarCurso() {
         do {
             print("Código do curso do aluno: ");
-            print("1-) Ciência da Computação");
+            print("1-) Ciencia da Computacao");
             print("2-) Engenharia de Software");
-            print("3-) Engenharia de Computação");
-            print("4-) Análise e Desenvolvimento de Software");
+            print("3-) Engenharia de Computacao");
+            print("4-) Analise e Desenvolvimento de Software");
             int codigoCurso = lerInt();
             Curso curso = instituicaoTI.getCursoByIndex(codigoCurso - 1);
             if (curso != null)
@@ -197,7 +197,7 @@ public class Menu {
     }
 
     private void consultarDadosTurma() {
-        System.out.print("Informe o código da turma que deseja consultar: ");
+        System.out.print("Informe o codigo da turma que deseja consultar: ");
         int codigoTurma = lerInt();
         instituicaoTI.consultaTurmaDetalhado(codigoTurma);
         continuar();
